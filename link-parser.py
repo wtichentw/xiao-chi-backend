@@ -1,5 +1,7 @@
 # usage: python google-image-link-parser.py QUERY_TEXT REQUIRE_LINK_NUMBER OUTPUT_FILE_NAME
-import urllib.request, urllib.parse, json, sys
+import urllib.request, urllib.parse, json, sys, os
+
+link_dir = os.path.join(os.getcwd(), 'link')
 
 api_key = 'AIzaSyD8EMpCHrq2ck8IxsXdyA2FcYJ-eSQoTy0'
 cx_id = '015465916556109681566:pflt7bx_ta8'
@@ -32,7 +34,7 @@ while cur_link_num < req_link_num:
     cur_link_num += int(result["queries"]["request"][0]["count"])
 
 # write to file
-log = open(output_file, "w")
+log = open(os.path.join(link_dir, output_file), "w")
 for link in links:
     log.write(link + '\n')
 log.close()
