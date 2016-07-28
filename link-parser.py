@@ -12,11 +12,13 @@ req_link_num = int(sys.argv[2])
 output_file = sys.argv[3]
 
 cur_link_num = 0
+extensions = ['jpg', 'jpeg']
 links = []
 
 def parse_json_to_link_list(json):
     for item in json["items"]:
-        links.append(item["link"])
+        link = item["link"].split('?')[0]
+        links.append(link)
 
 while cur_link_num < req_link_num:
     # get response from google custom search api
