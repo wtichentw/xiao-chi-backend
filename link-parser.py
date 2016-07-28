@@ -24,6 +24,7 @@ while cur_link_num < req_link_num:
     # get response from google custom search api
     encode_keyword = urllib.parse.quote(keyword)
     query = 'searchType=image&filtType=jpeg&q=%s&key=%s&cx=%s&start=%s' % (encode_keyword, api_key, cx_id, cur_link_num+1)
+    print (cur_link_num)
     response = urllib.request.urlopen(api_url + query)
 
     # load http response to json
