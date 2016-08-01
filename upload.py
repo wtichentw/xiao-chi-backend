@@ -1,8 +1,7 @@
+from prediction import *
 from os import curdir
 from os.path import join as pjoin
-
 from http.server import BaseHTTPRequestHandler, HTTPServer
-import shutil, cgi
 
 class StoreHandler(BaseHTTPRequestHandler):
     image_path = pjoin(curdir, 'pred.jpg')
@@ -43,13 +42,15 @@ class StoreHandler(BaseHTTPRequestHandler):
                         preline = preline[0:-1]
                     out.write(preline)
                     out.close()
-                    return (True, "File '%s' upload success!" % self.image_path)
                 else:
                     out.write(preline)
                     preline = line
-            return (False, "Unexpect Ends of data.")
+
+            print (run_inference_on_image(self.image_path))
 
 
-print ('Start Server at port', 8080)
-server = HTTPServer(('', 8080), StoreHandler)
-server.serve_forever()
+if __name__ == '__main__':
+    server = HTTPServer(('', 8080), StoreHandler)
+    print ('Start Server at port', 8080)
+    server.serve_forever()
+
