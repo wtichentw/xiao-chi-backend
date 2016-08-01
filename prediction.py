@@ -49,4 +49,10 @@ def run_inference_on_image(imagePath):
 
 
 if __name__ == '__main__':
+    server = HTTPServer(('', 8080), StoreHandler)
+    print ('Start Server at port', 8080)
+    server.serve_forever()
+
     run_inference_on_image(sys.argv[1])
+
+
