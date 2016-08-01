@@ -1,4 +1,6 @@
 link/*
 photo/*
+train_photo/*
+test_photo/*
 *.jpg
 .DS_Store
