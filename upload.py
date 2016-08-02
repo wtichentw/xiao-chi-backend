@@ -2,9 +2,28 @@ import os
 from prediction import *
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
+html =  """
+        <html>
+            <head>
+                <title> Hello World </title> 
+            </head> 
+            <body>
+                <h1> Hello World </h1>
+            </body>
+        </html>
+        """
+
 class StoreHandler(BaseHTTPRequestHandler):
+    def do_GET(self):
+        self.send_response(200)
+        self.send_header('Content-type', 'text/html')
+        self.end_headers()
+        self.wfile.write(bytes(html, 'UTF-8'))
+        
     def do_POST(self):
         if self.path == '/pred':
+            print ("Get Request")
+            
             # Set image path
             image_path = os.path.join(os.curdir, 'pred.jpg')
 
@@ -50,8 +69,9 @@ class StoreHandler(BaseHTTPRequestHandler):
                 remainbytes -= len(line)
                 out.write(line)
             out.close()
-
-            print (run_inference_on_image(image_path))
+            print ("Ready to predict")
+            #print (run_inference_on_image(image_path))
+            print ("Predict complete")
 
 if __name__ == '__main__':
     server = HTTPServer(('', 8080), StoreHandler)
