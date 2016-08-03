@@ -15,6 +15,7 @@ def run_inference_on_image(imagePath):
     answer = None
 
     image_data = tf.gfile.FastGFile(imagePath, 'rb').read()
+    #image_data = tf.gfile.FastGFile('/home/wtichen/codespace/xiao-chi-backend/pred.jpg', 'rb').read()
 
     # Creates graph from saved GraphDef.
     create_graph()
@@ -25,7 +26,6 @@ def run_inference_on_image(imagePath):
         predictions = sess.run(softmax_tensor,
                                {'DecodeJpeg/contents:0': image_data})
         predictions = np.squeeze(predictions)
-
         top_k = predictions.argsort()[-5:][::-1]  # Getting top 5 predictions
         f = open(conf.output_labels, 'rb')
         lines = f.readlines()
@@ -38,6 +38,6 @@ def run_inference_on_image(imagePath):
         answer = labels[top_k[0]]
         return answer
 
-
+#print (run_inference_on_image(''))
 
 
