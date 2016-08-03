@@ -21,7 +21,7 @@ class StoreHandler(BaseHTTPRequestHandler):
         self.wfile.write(bytes(html, 'UTF-8'))
         
     def do_POST(self):
-        if self.path == '/pred':
+        if self.path == '/xiao-chi-prediction':
             print ("Get Request")
             
             # Set image path
