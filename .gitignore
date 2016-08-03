@@ -2,6 +2,7 @@ link/*
 photo/*
 train_photo/*
 test_photo/*
+model/*
 __pycache__/*
 *.jpg
 .DS_Store
