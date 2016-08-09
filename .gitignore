@@ -5,6 +5,7 @@ test_photo/*
 model/*
 __pycache__/*
 *.jpg
+*.swp
 .DS_Store
 output_graph.pb
 output_labels.txt

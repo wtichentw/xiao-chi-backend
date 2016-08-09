@@ -1,4 +1,4 @@
-import os
+import os, json
 from prediction import *
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
@@ -83,9 +83,11 @@ class StoreHandler(BaseHTTPRequestHandler):
 
             print ("Ready to predict")
             result = run_inference_on_image(image_path)
+            result = json.dumps(result) 
+            result_json = json.loads(result)
             print (result)
             self.send_response(200)
-            self.send_header('Content-type', 'text/plain')
+            self.send_header('Content-type', 'application/json')
             self.end_headers()
             self.wfile.write(result.encode())
 
@@ -110,17 +112,24 @@ def run_inference_on_image(imagePath):
         predictions = sess.run(softmax_tensor,
                                {'DecodeJpeg/contents:0': image_data})
         predictions = np.squeeze(predictions)
-        top_k = predictions.argsort()[-5:][::-1]  # Getting top 5 predictions
+
+        # Getting top 5 predictions
+        top_5 = predictions.argsort()[-5:][::-1]  
+
+        result = {}
+        # Read Labels
         f = open(conf.output_labels, 'r')
         lines = f.readlines()
-        labels = [str(w).replace("\n", "").replace(" ", "-") for w in lines]
-        for node_id in top_k:
-            human_string = labels[node_id]
-            score = predictions[node_id]
-            #print('%s (score = %.5f)' % (human_string, score))
+        labels = [str(w).replace("\n", "") for w in lines]
 
-        answer = labels[top_k[0]]
-        return answer
+        for node_id in top_5:
+            human_string = labels[node_id]
+            score = predictions[node_id].item()
+            result[human_string] = score
+            print('%s (score = %.5f)' % (human_string, score))
+
+        print(labels[top_5[0]])
+        return result
 
 if __name__ == '__main__':
     print ("Creating graph")
