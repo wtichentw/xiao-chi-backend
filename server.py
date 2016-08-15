@@ -1,5 +1,8 @@
 import os, json
-from prediction import *
+import tensorflow as tf
+import config as conf
+import numpy as np
+#from prediction import *
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
 html =  """
